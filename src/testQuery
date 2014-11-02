@@ -1,0 +1,1 @@
+Create table student (sno int unique, sname char(16));
