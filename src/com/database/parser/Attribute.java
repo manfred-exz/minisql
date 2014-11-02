@@ -16,6 +16,11 @@ public class Attribute {
 	private int attributeLength = 0;
 	private boolean isUnique = false;
 
+	public Attribute(String newAttributeName, String newTableName){
+		attributeName = newAttributeName;
+		tableName = newTableName;
+	}
+
 	public Attribute(String newAttributeName, String newAttributeType,int newAttributeLength, boolean newIsUnique){
 		attributeName = newAttributeName;
 		attributeType = newAttributeType;
