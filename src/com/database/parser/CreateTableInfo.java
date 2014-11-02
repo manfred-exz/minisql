@@ -68,14 +68,14 @@ public class CreateTableInfo extends QueryInfo{
 				break;
 
 			// Find attributeName
-			String attributeName = Attribute.parseAttributeName(queryElement, i);
+			String attributeName = QueryInfo.parseAttributeName(queryElement, i);
 			if(attributeName == null)
 				throw new Exception("[CreateTableInfo]Attribute name not right: " + attributeName);
 			else
 				i++;
 
 			// Find attributeType
-			String attributeType = Attribute.parseAttributeType(queryElement, i);
+			String attributeType = QueryInfo.parseAttributeType(queryElement, i);
 			if(attributeType == null)
 				throw new Exception("[CreateTableInfo]Attribute type not right: " + attributeType);
 			else
@@ -84,7 +84,7 @@ public class CreateTableInfo extends QueryInfo{
 			if(queryElement[i].equals(")"))
 				break;
 
-			int attributeLength = Attribute.parseAttributeLength(queryElement, attributeType, i);
+			int attributeLength = QueryInfo.parseAttributeLength(queryElement, attributeType, i);
 			if(attributeType.equals("char"))
 				i = i+3;
 

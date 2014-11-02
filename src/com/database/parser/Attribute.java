@@ -69,47 +69,6 @@ public class Attribute {
 			return false;
 	}
 
-	static String parseAttributeName( String [] parseElement, int i) {
-		String attributeName = null;
-		if(i < parseElement.length) {
-			if(!Attribute.isAttributeName(parseElement[i]))
-				return null;
-			attributeName = parseElement[i];
-			i++;
-		}else{
-			return null;
-		}
-		return attributeName;
-	}
 
-	static String parseAttributeType( String [] parseElement, int i) {
-		String attributeType = null;
-		if(i < parseElement.length){
-			attributeType = parseElement[i];
-			if(!Attribute.isAttributeType(attributeType)){
-				return null;
-			}
-		}else
-			return null;
-
-		return attributeType;
-	}
-
-	static int parseAttributeLength( String [] parseElement,String attributeType, int i) throws Exception {
-		int attributeLength = 1;
-		if(attributeType.equals("char")){
-			// at least 3 elements is after "char" if (length) is to be specified.
-			if(i+2 < parseElement.length && parseElement[i].equals("(") && parseElement[i+2].equals(")")) {
-				attributeLength = Integer.parseInt(parseElement[i + 1]);
-			}
-		}
-		// TODO: the length of int and float may be added.
-		else
-			;
-//			throw new Exception("[parseAttributeLength]Type not supported for variable length " + attributeType);
-
-
-		return attributeLength;
-	}
 
 }

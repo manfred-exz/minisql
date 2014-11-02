@@ -25,7 +25,9 @@ public class SelectInfo extends QueryInfo {
 		if(queryElement[0].equals("select"))
 			;
 		else
-			throw new Exception("[CreateTableInfo] It's not a 'create table' query, should be passed in.");
+			throw new Exception(SelectInfo.class + ": " +  "It's not a 'Select' query, should not be passed in.");
+
+
 
 	}
 
