@@ -8,6 +8,9 @@ public class Attribute {
 	public final static String CHAR_TYPE = "char";
 	public final static String FLOAT_TYPE = "float";
 
+	//TODO: table name not added into constructor.
+	// tableName = null means: which table it belong to is not specified.
+	private String tableName = null;
 	private String attributeName = null;
 	private String attributeType = null;
 	private int attributeLength = 0;
@@ -30,6 +33,7 @@ public class Attribute {
 	public String getAttributeName(){
 		return attributeName;
 	}
+
 	public void setAttributeName(String newName){
 		attributeName = newName;
 	}
@@ -37,6 +41,7 @@ public class Attribute {
 	public String getAttributeType(){
 		return attributeType;
 	}
+
 	public void setAttributeType(String newType){
 		attributeType = newType;
 	}
@@ -44,6 +49,7 @@ public class Attribute {
 	public boolean isUnique(){
 		return isUnique;
 	}
+
 	public void setUnique(boolean newIsUnique){
 		isUnique = newIsUnique;
 	}
@@ -80,7 +86,6 @@ public class Attribute {
 		String attributeType = null;
 		if(i < parseElement.length){
 			attributeType = parseElement[i];
-			i++;
 			if(!Attribute.isAttributeType(attributeType)){
 				return null;
 			}

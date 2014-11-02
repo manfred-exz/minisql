@@ -6,7 +6,7 @@ import java.util.Iterator;
 /**
  * Created by manfred on 10/29/14.
  */
-public class CreateTableInfo {
+public class CreateTableInfo extends QueryInfo{
 	public String tableName;
 	public ArrayList<Attribute> attributes;
 	public String primaryKeyName;
@@ -14,11 +14,12 @@ public class CreateTableInfo {
 
 
 	public CreateTableInfo(ArrayList<String> queryElementIn) throws Exception{
+		super(QueryType.CREATE_TABLE);
+
 		// Initialization
 		tableName = null;
 		attributes = new ArrayList<Attribute>();
 		primaryKeyName = null;
-
 
 		String [] queryElement = new String[queryElementIn.size()];
 		queryElement = (String[])queryElementIn.toArray(queryElement);
@@ -47,8 +48,6 @@ public class CreateTableInfo {
 			if(i < queryElement.length)
 				if(queryElement[i].equals(")"))
 					break;
-				else
-					;
 			else
 				throw new Exception("[CreateTableInfo]Wrong format.");
 
