@@ -140,7 +140,7 @@ public abstract class QueryInfo {
 
 		// Check if * is specified
 		if(parseElement[fromIndex+1].equals("*"))
-			return null;
+			return (Attribute[]) attributesList.toArray();
 
 		// Check all the attributes following if not *
 		for (int i = fromIndex+1;

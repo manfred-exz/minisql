@@ -1,7 +1,6 @@
 package com.database.parser;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by manfred on 10/29/14.
@@ -68,7 +67,7 @@ public class CreateTableInfo extends QueryInfo{
 				break;
 
 			// Find attributeName
-			String attributeName = QueryInfo.parseAttributeName(queryElement, i);
+			String attributeName = QueryInfo.parseAttributeName(queryElement[i]);
 			if(attributeName == null)
 				throw new Exception("[CreateTableInfo]Attribute name not right: " + attributeName);
 			else
