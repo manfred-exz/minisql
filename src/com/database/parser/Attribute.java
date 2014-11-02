@@ -70,8 +70,8 @@ public class Attribute {
 	public static boolean isAttributeType(String attributeType){
 		if(attributeType.equals(CHAR_TYPE) || attributeType.equals(INT_TYPE) || attributeType.equals(FLOAT_TYPE))
 			return true;
-		else
-			return false;
+
+		return false;
 	}
 
 

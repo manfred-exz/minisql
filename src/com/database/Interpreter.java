@@ -45,11 +45,8 @@ public class Interpreter {
 	    while(iterator.hasNext())
 		    System.out.println(iterator.next());
 
-		if( queryElement.get(0).equals("create") && queryElement.get(1).equals("table")) {
+		if( queryElement.get(0).equals("create") && queryElement.get(1).equals("table"))
 			createTableInfo = new CreateTableInfo(queryElement);
-		}
-	    else
-			;
 
 /*	    System.out.println(createTableInfo.tableName);
 	    System.out.println(createTableInfo.attributes);*/
@@ -102,8 +99,7 @@ public class Interpreter {
 			/* TO DO !!!*/
 			// If a continuous word(ended with whitespace or special chars) is found then add to element, and skip;
 			front = back = i;
-			while( (string.charAt(i) == ' '  ||  special.indexOf(string.charAt(i)) != -1)
-					== false)
+			while( !(string.charAt(i) == ' '  ||  special.indexOf(string.charAt(i)) != -1))
 				i++;
 			element.add(string.substring(front, i).toLowerCase());
 			// return the special char if skipped.

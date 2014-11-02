@@ -191,4 +191,4 @@ public abstract class QueryInfo {
 	static boolean isAttributeName(String attributeName){
 		return true;
 	}
-};
+}

@@ -20,13 +20,10 @@ public class CreateTableInfo extends QueryInfo{
 		attributes = new ArrayList<Attribute>();
 		primaryKeyName = null;
 
-		String [] queryElement = new String[queryElementIn.size()];
-		queryElement = (String[])queryElementIn.toArray(queryElement);
+		String [] queryElement = (String[])queryElementIn.toArray();
 
 		// Check if the passed in query is right.
-		if(queryElement[0].equals("create") && queryElement[1].equals("table"))
-			;
-		else
+		if( !(queryElement[0].equals("create") && queryElement[1].equals("table")) )
 			throw new Exception("[CreateTableInfo] It's not a 'create table' query, should be passed in.");
 
 
@@ -34,9 +31,7 @@ public class CreateTableInfo extends QueryInfo{
 		if(2 <queryElement.length)
 			tableName = queryElement[2];
 
-		if(3 < queryElement.length && queryElement[3].equals("("))
-			;
-		else
+		if( !(3 < queryElement.length && queryElement[3].equals("(")) )
 			throw new Exception("[CreateTableInfo]No ( found");
 
 		int i = 4;
@@ -69,14 +64,14 @@ public class CreateTableInfo extends QueryInfo{
 			// Find attributeName
 			String attributeName = QueryInfo.parseAttributeName(queryElement[i]);
 			if(attributeName == null)
-				throw new Exception("[CreateTableInfo]Attribute name not right: " + attributeName);
+				throw new Exception("[CreateTableInfo]Attribute name not right");
 			else
 				i++;
 
 			// Find attributeType
 			String attributeType = QueryInfo.parseAttributeType(queryElement, i);
 			if(attributeType == null)
-				throw new Exception("[CreateTableInfo]Attribute type not right: " + attributeType);
+				throw new Exception("[CreateTableInfo]Attribute type not right");
 			else
 				i++;
 			// Check if query is ended.

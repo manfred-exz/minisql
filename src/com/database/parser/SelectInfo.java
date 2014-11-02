@@ -14,14 +14,11 @@ public class SelectInfo extends QueryInfo {
 	public SelectInfo(ArrayList<String> queryElementIn) throws Exception {
 		super(QueryType.SELECT);
 
-		String [] queryElement = new String[queryElementIn.size()];
-		queryElement = (String[])queryElementIn.toArray(queryElement);
+		String [] queryElement = (String[])queryElementIn.toArray();
 
 
 		// Check if the passed in query is right.
-		if(queryElement[0].equals("select"))
-			;
-		else
+		if(!queryElement[0].equals("select"))
 			throw new Exception(SelectInfo.class + ": " +  "It's not a 'Select' query, should not be passed in.");
 
 		// seek to the 'From' part, and check the find all the tables used in the query.
