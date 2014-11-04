@@ -53,13 +53,15 @@ public class Interpreter {
 			queryInfo = new SelectInfo(queryElement);
 		else if(queryElement.get(0).equals("insert") && queryElement.get(1).equals("into"))
 			queryInfo = new InsertInfo(queryElement);
+	    else if(queryElement.get(0).equals("drop") && queryElement.get(1).equals("table"))
+			;
 
 /*	    System.out.println(createTableInfo.tableName);
 	    System.out.println(createTableInfo.attributes);*/
 
     }
 
-	//TODO: cannot parse operators like ">=" right now. You should type in " >= "
+	//TODO: cannot parse operators like ">=" right now. You should type in "_>=_", '_' means whitespace.
 	private ArrayList<String> splitIntoElements(String string) throws Exception {
 		System.out.println("[Debug]Entering...");
 		ArrayList<String> element = new ArrayList<String>();
