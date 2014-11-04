@@ -1,6 +1,7 @@
 package com.database.parser;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
 
 /**
  * Created by manfred on 11/2/14.
@@ -117,9 +118,9 @@ public abstract class QueryInfo {
 			return null;
 		}
 
-//		String [] returnTableList =  new String[tableNameList.size()];
-		String [] returnTableList;
-		returnTableList = (String [])tableNameList.toArray();
+		String [] returnTableList = new String [tableNameList.size()];
+		returnTableList = (String [])tableNameList.toArray(returnTableList);
+
 
 
 		return returnTableList;
@@ -139,8 +140,10 @@ public abstract class QueryInfo {
 			throw new Exception(QueryInfo.class + ": " + "no 'from' clause found in select query.");
 
 		// Check if * is specified
-		if(parseElement[fromIndex+1].equals("*"))
-			return (Attribute[]) attributesList.toArray();
+		if(parseElement[fromIndex+1].equals("*")) {
+			Attribute [] returnAttribute = new Attribute[attributesList.size()];
+			return (Attribute[]) attributesList.toArray(returnAttribute);
+		}
 
 		// Check all the attributes following if not *
 		for (int i = fromIndex+1;
@@ -178,10 +181,71 @@ public abstract class QueryInfo {
 
 		}
 
-		return (Attribute[]) attributesList.toArray();
+		Attribute [] returnAttribute = new Attribute[attributesList.size()];
+		return (Attribute[]) attributesList.toArray(returnAttribute);
 	}
 
+	//TODO: the where clause can only be in the form "attr between constant_1 constant_2" or "attr operator constant" now.
+	static ArrayList<ConditionNode> parseWhere(String [] parseElement, int index) throws Exception {
+		ArrayList<ConditionNode> conditionList = new ArrayList<ConditionNode>();
 
+		int fromIndex = -1;
+		// Check if WHERE 'clause' exists in the query. Search from index specified, because their can be more From in one query.
+		for (int i = index; i < parseElement.length; i++) {
+			if(parseElement[i].equals("where")) {
+				fromIndex = i;
+				break;
+			}
+		}
+		// if not then it's a wrong query.
+		if(fromIndex == -1)
+			throw new Exception(QueryInfo.class + ": " + "no 'from' clause found in select query.");
+
+		// Because a condition consists of at least 3 elements, thus (i+2 >= parseElement.length) is the stop point.
+		for (int i = fromIndex+1; i+2 < parseElement.length; ) {
+			Attribute leftAttribute, rightAttribute, betweenOperand;
+
+			if(!Operator.isOperator(parseElement[i+1]))
+				throw new Exception("the second element of query condition is not a operator, parseError");
+
+			ConditionNode conditionNode;
+			if(parseElement[i+1].equals("between") && parseElement[i+3].equals("and")){
+				betweenOperand = parseAttributeNameWithTable(parseElement[i]);
+				leftAttribute = new Attribute( "constant", Double.parseDouble(parseElement[i + 2]) );
+				rightAttribute = new Attribute( "constant", Double.parseDouble(parseElement[i + 4]) );
+
+				conditionNode = new ConditionNode(Operator.BETWEEN);
+				conditionNode.betweenOperand = betweenOperand;
+				conditionNode.leftOperand = leftAttribute;
+				conditionNode.rightOperand = rightAttribute;
+
+				conditionList.add(conditionNode);
+
+				i = i+5;
+			}
+			else{
+				leftAttribute = parseAttributeNameWithTable(parseElement[i]);
+				rightAttribute = new Attribute( "constant", Double.parseDouble(parseElement[i + 2]) );
+
+				Operator operator = Operator.getOperatorFromString(parseElement[i+1]);  //it's checked that this is surely an operator before.
+				conditionNode = new ConditionNode(operator);
+				conditionNode.leftOperand = leftAttribute;
+				conditionNode.rightOperand = rightAttribute;
+
+				conditionList.add(conditionNode);
+
+				i = i+3;
+			}
+
+			if(i < parseElement.length && parseElement[i].equals("and"))
+				i++;
+
+
+		}
+
+
+		return conditionList;
+	}
 
 	static boolean isTableName(String tableName){
 		return true;
