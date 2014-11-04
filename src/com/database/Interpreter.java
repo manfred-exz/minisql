@@ -50,7 +50,8 @@ public class Interpreter {
 			queryInfo = new CreateTableInfo(queryElement);
 	    else if(queryElement.get(0).equals("select"))
 			queryInfo = new SelectInfo(queryElement);
-
+		else if(queryElement.get(0).equals("insert") && queryElement.get(1).equals("into"))
+			;
 
 /*	    System.out.println(createTableInfo.tableName);
 	    System.out.println(createTableInfo.attributes);*/
