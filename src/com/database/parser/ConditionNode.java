@@ -8,6 +8,7 @@ public class ConditionNode {
 	private Operator operator;
 	public Attribute leftOperand = null;
 	public Attribute rightOperand = null;
+	public Attribute betweenOperand = null;
 	private ConditionNode leftNode = null;
 	private ConditionNode rightNode = null;
 

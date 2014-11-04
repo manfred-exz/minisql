@@ -1,6 +1,8 @@
 package com.database;
 
 import com.database.parser.CreateTableInfo;
+import com.database.parser.QueryInfo;
+import com.database.parser.SelectInfo;
 
 import java.util.*;
 
@@ -9,7 +11,7 @@ import java.util.*;
  */
 public class Interpreter {
     private String queryString;
-    private QueryData queryData;
+    private QueryInfo queryInfo;
 
     /**
      * Get a complete query.(Any String terminated with ';')
@@ -35,7 +37,6 @@ public class Interpreter {
     public void parseQuery() throws Exception {
 
 	    ArrayList<String> queryElement;
-	    CreateTableInfo createTableInfo = null;
 
 	    // Split the query into individual element.
 		queryElement = splitIntoElements(queryString);
@@ -46,13 +47,17 @@ public class Interpreter {
 		    System.out.println(iterator.next());
 
 		if( queryElement.get(0).equals("create") && queryElement.get(1).equals("table"))
-			createTableInfo = new CreateTableInfo(queryElement);
+			queryInfo = new CreateTableInfo(queryElement);
+	    else if(queryElement.get(0).equals("select"))
+			queryInfo = new SelectInfo(queryElement);
+
 
 /*	    System.out.println(createTableInfo.tableName);
 	    System.out.println(createTableInfo.attributes);*/
 
     }
 
+	//TODO: cannot parse operators like ">=" right now. You should type in " >= "
 	private ArrayList<String> splitIntoElements(String string) throws Exception {
 		System.out.println("[Debug]Entering...");
 		ArrayList<String> element = new ArrayList<String>();
@@ -99,9 +104,13 @@ public class Interpreter {
 			/* TO DO !!!*/
 			// If a continuous word(ended with whitespace or special chars) is found then add to element, and skip;
 			front = back = i;
-			while( !(string.charAt(i) == ' '  ||  special.indexOf(string.charAt(i)) != -1))
+			while(i < string.length() &&
+					( !(string.charAt(i) == ' '  ||  special.indexOf(string.charAt(i)) != -1)) )
 				i++;
 			element.add(string.substring(front, i).toLowerCase());
+			if(i == string.length())
+				break;
+
 			// return the special char if skipped.
 			if(special.indexOf(string.charAt(i)) != -1)
 				i--;
