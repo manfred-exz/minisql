@@ -211,8 +211,8 @@ public abstract class QueryInfo {
 			ConditionNode conditionNode;
 			if(parseElement[i+1].equals("between") && parseElement[i+3].equals("and")){
 				betweenOperand = parseAttributeNameWithTable(parseElement[i]);
-				leftAttribute = new Attribute( "constant", Double.parseDouble(parseElement[i + 2]) );
-				rightAttribute = new Attribute( "constant", Double.parseDouble(parseElement[i + 4]) );
+				leftAttribute = new Attribute( "constant", parseConstant(parseElement[i+2]));
+				rightAttribute = new Attribute( "constant", parseConstant(parseElement[i+4]));
 
 				conditionNode = new ConditionNode(Operator.BETWEEN);
 				conditionNode.betweenOperand = betweenOperand;
@@ -225,7 +225,7 @@ public abstract class QueryInfo {
 			}
 			else{
 				leftAttribute = parseAttributeNameWithTable(parseElement[i]);
-				rightAttribute = new Attribute( "constant", Double.parseDouble(parseElement[i + 2]) );
+				rightAttribute = new Attribute( "constant", parseConstant(parseElement[i+2]));
 
 				Operator operator = Operator.getOperatorFromString(parseElement[i+1]);  //it's checked that this is surely an operator before.
 				conditionNode = new ConditionNode(operator);
@@ -245,6 +245,38 @@ public abstract class QueryInfo {
 
 
 		return conditionList;
+	}
+
+	public static ConstantValue parseConstant(String element){
+		try{
+			return new IntValue(Integer.parseInt(element));
+		}
+		catch (NumberFormatException e){
+			try{
+				return new DoubleValue(Double.parseDouble(element));
+			}
+			catch (NumberFormatException ee){
+				return new StringValue(element);
+			}
+		}
+	}
+	protected ArrayList<ConstantValue> parseValues(String[] parseElement, int index) throws Exception {
+
+		if(!parseElement[3].equals("values") || !parseElement[4].equals("("))
+			throw new Exception("This is not a values clause in insert into query.");
+
+		ArrayList<ConstantValue> values = new ArrayList<ConstantValue>();
+
+		for (int i = 5; i < parseElement.length ; i++) {
+			if(parseElement[i].equals(")") || parseElement[i].equals(";"))
+				break;
+
+			if(parseElement[i].equals(","))
+				continue;
+			values.add(parseConstant(parseElement[i]));
+		}
+
+		return values;
 	}
 
 	static boolean isTableName(String tableName){

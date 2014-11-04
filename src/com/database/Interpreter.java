@@ -1,6 +1,7 @@
 package com.database;
 
 import com.database.parser.CreateTableInfo;
+import com.database.parser.InsertInfo;
 import com.database.parser.QueryInfo;
 import com.database.parser.SelectInfo;
 
@@ -51,7 +52,7 @@ public class Interpreter {
 	    else if(queryElement.get(0).equals("select"))
 			queryInfo = new SelectInfo(queryElement);
 		else if(queryElement.get(0).equals("insert") && queryElement.get(1).equals("into"))
-			;
+			queryInfo = new InsertInfo(queryElement);
 
 /*	    System.out.println(createTableInfo.tableName);
 	    System.out.println(createTableInfo.attributes);*/

@@ -21,7 +21,7 @@ public class Attribute {
 	private String attributeName = null;
 	private String attributeType = null;
 	private int attributeLength = 0;
-	private double constant = 0;
+	private ConstantValue constant = null;
 	private boolean isUnique = false;
 
 	public Attribute(String _attributeName, String _tableName){
@@ -29,7 +29,7 @@ public class Attribute {
 		tableName = _tableName;
 	}
 
-	public Attribute(String _attributeType, double _constant){
+	public Attribute(String _attributeType, ConstantValue _constant){
 		attributeType = _attributeType;
 		constant = _constant;
 
@@ -49,11 +49,11 @@ public class Attribute {
 		isUnique = false;
 	}
 
-	public double getConstant(){
+	public ConstantValue getConstant(){
 		return constant;
 	}
 
-	public void setConstant(double _constant){
+	public void setConstant(ConstantValue _constant){
 		constant = _constant;
 	}
 
