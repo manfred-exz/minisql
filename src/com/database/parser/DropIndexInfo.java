@@ -4,6 +4,7 @@ package com.database.parser;
 import java.util.ArrayList;
 
 /**
+ * "Drop index" query.
  * Created by manfred on 11/4/14.
  */
 public class DropIndexInfo extends QueryInfo {

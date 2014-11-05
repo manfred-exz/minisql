@@ -1,12 +1,14 @@
 package com.database.parser;
 
 /**
+ *
  * Created by manfred on 10/29/14.
  */
 
-/*
-* To simplify the storage of conditionNode,
-* Attributes can be used to store forms of "{table_name.}attribute_name", or "constant"
+/**
+ * Attribute describe the attribute in the query like "select attr_1, attr_2, ... from table_name where ..."
+ * It can be in the form <b>table_name.attribute_name</b> or only <b>attribute_name</b>
+* To simplify the storage of conditionNode, Constant like <b>string</b>, <b>int</b>, <b>float</b> are also considered Attribute.
 * Thus, before using any attribute, you should check if the type is what you want.
 * */
 public class Attribute {
@@ -73,6 +75,10 @@ public class Attribute {
 		attributeType = newType;
 	}
 
+	public String getTableName(){
+		return tableName;
+	}
+
 	public boolean isUnique(){
 		return isUnique;
 	}
@@ -97,5 +103,7 @@ public class Attribute {
 	}
 
 
-
+	public int getAttributeLength() {
+		return attributeLength;
+	}
 }

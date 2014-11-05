@@ -1,4 +1,4 @@
-Create table student (sno int unique, sname char(16));
+Create table student (sno int unique, sname char(16), primary key(sname));
 Select * from student;
 Select student.sno, student.sname from student where student.sno between 50 and 30;
 Select student.sno, student.sname from student where student.sno between 50 and 30 and student.sno = 70;

@@ -3,6 +3,7 @@ package com.database.parser;
 import java.util.ArrayList;
 
 /**
+ * "Create table" query, note that the parse implementation is a bit different.
  * Created by manfred on 10/29/14.
  */
 public class CreateTableInfo extends QueryInfo{
@@ -20,7 +21,8 @@ public class CreateTableInfo extends QueryInfo{
 		attributes = new ArrayList<Attribute>();
 		primaryKeyName = null;
 
-		String [] queryElement = (String[])queryElementIn.toArray();
+		String [] queryElement = new String [queryElementIn.size()];
+		queryElement = 	(String[])queryElementIn.toArray(queryElement);
 
 		// Check if the passed in query is right.
 		if( !(queryElement[0].equals("create") && queryElement[1].equals("table")) )
@@ -35,13 +37,15 @@ public class CreateTableInfo extends QueryInfo{
 			throw new Exception("[CreateTableInfo]No ( found");
 
 		int i = 4;
-		String primaryKey;
+		primaryKeyName = parsePrimaryKey(queryElement, tableName, 0);
 		while(true) {
 
 			// Determine whether to stop, if ')' is found then stop.
 			if(i < queryElement.length)
-				if(queryElement[i].equals(")"))
+				if(queryElement[i].equals(")") || queryElement[i].equals("primary"))
 					break;
+				else
+					;
 			else
 				throw new Exception("[CreateTableInfo]Wrong format.");
 

@@ -3,6 +3,7 @@ package com.database.parser;
 import java.util.ArrayList;
 
 /**
+ * "Drop database" query.
  * Created by manfred on 11/2/14.
  */
 public class DropDatabaseInfo extends QueryInfo{

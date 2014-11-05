@@ -80,6 +80,19 @@ public abstract class QueryInfo {
 		return new Attribute(attributeName,tableName);
 	}
 
+	static String parsePrimaryKey(String[] queryElement, String tableName, int index) throws Exception {
+		for (int i = 0; i+1 < queryElement.length; i++) {
+			if(queryElement[i].equals("primary") && queryElement[i+1].equals("key")){
+				if(i+3 < queryElement.length && isAttributeName(queryElement[i+3], tableName) )
+					return queryElement[i+3];
+				else
+					throw new Exception("wrong format.");
+			}
+
+		}
+		return null;
+	}
+
 	static String [] parseFromTable( String [] parseElement, int index) throws Exception {
 		ArrayList<String> tableNameList = new ArrayList<String>();
 		int fromIndex = -1;
@@ -144,6 +157,7 @@ public abstract class QueryInfo {
 			return (Attribute[]) attributesList.toArray(returnAttribute);
 		}
 
+		boolean isUnique;
 		// Check all the attributes following if not *
 		for (int i = fromIndex+1;
 		     i < parseElement.length && !parseElement[i].equals("from"); // Stops checking table name when ';' or 'from' is found.
@@ -155,29 +169,58 @@ public abstract class QueryInfo {
 				continue;
 			}
 
+			Attribute attribute = parseAttributeNameWithTable(parseElement[i]);
+
+			if(parseElement[i+1].equals("unique")) {
+				attribute.setUnique(true);
+				i++;
+			}
 			// Find next attribute name
-			attributesList.add( parseAttributeNameWithTable(parseElement[i]) );
+			attributesList.add( attribute );
+		}
 
+		Attribute [] returnAttribute = new Attribute[attributesList.size()];
+		return (Attribute[]) attributesList.toArray(returnAttribute);
+	}
 
-			/*if(!isAttributeName(element))
-				throw new Exception(QueryInfo.class + "[parseFromTable], invalid table name");
-			else{
-				int indexOfDot = -1;
-				String indexName;
-				String attributeName;
-				if( (indexOfDot = element.indexOf('.')) != -1 ) {
-					if(isTableName(element.substring(0, indexOfDot)))
-						indexName = element.substring(0, indexOfDot);
-					else
-						throw new Exception(QueryInfo.class + "[parseFromTable], invalid table name");
-					attributeName = element.substring(indexOfDot+1);
-				}
-				else
-				//TODO
-					;
-				
-			}*/
+	static Attribute [] parseCreateAttributes(String [] parseElement, int index) throws Exception {
+		ArrayList<Attribute> attributesList = new ArrayList<Attribute>();
+		int fromIndex = -1;
 
+		// Check if Select clause exists in the query. Search from index specified, because their can be more Select in one query.
+		for (int i = index; i < parseElement.length; i++) {
+			if( parseElement[i].equals("("))
+				fromIndex = i;
+		}
+		// if not then it's a wrong query.
+		if(fromIndex == -1)
+			throw new Exception(QueryInfo.class + ": " + "no '(attributes)' clause found in select query.");
+
+		// Check if * is specified
+		if(parseElement[fromIndex+1].equals("*")) {
+			Attribute [] returnAttribute = new Attribute[attributesList.size()];
+			return (Attribute[]) attributesList.toArray(returnAttribute);
+		}
+
+		// Check all the attributes following if not *
+		for (int i = fromIndex+1;
+		     i < parseElement.length && !parseElement[i].equals(")"); // Stops checking table name when ';' or ')' is found.
+		     i++)
+		{
+			// skip comma, (which means in our parser, you can keep or omit comma, it doesn't matter.
+			String comma = parseElement[i];
+			if(comma.equals(",")){
+				continue;
+			}
+
+			Attribute attribute = parseAttributeNameWithTable(parseElement[i]);
+
+			if(parseElement[i+1].equals("unique")) {
+				attribute.setUnique(true);
+				i++;
+			}
+			// Find next attribute name
+			attributesList.add( attribute );
 		}
 
 		Attribute [] returnAttribute = new Attribute[attributesList.size()];

@@ -3,6 +3,7 @@ package com.database.parser;
 import java.util.ArrayList;
 
 /**
+ * "Create index" query.
  * Created by manfred on 10/29/14.
  */
 public class CreateIndexInfo extends QueryInfo{

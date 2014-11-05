@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
+ * "Drop table" query.
  * Created by manfred on 11/4/14.
  */
 public class DropTableInfo extends QueryInfo {

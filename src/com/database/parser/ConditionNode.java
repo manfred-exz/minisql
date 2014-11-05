@@ -1,6 +1,8 @@
 package com.database.parser;
 
 /**
+ * ConditionNode is used to store the conditions in where clause.
+ * ConditionTree is not implemented yet, since it's not required, but we may implement it in later version.
  * Created by manfred on 11/2/14.
  */
 public class ConditionNode {

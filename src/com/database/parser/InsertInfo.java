@@ -3,6 +3,7 @@ package com.database.parser;
 import java.util.ArrayList;
 
 /**
+ * Insert query.
  * Created by manfred on 11/4/14.
  */
 public class InsertInfo extends QueryInfo{

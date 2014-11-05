@@ -3,6 +3,7 @@ package com.database.parser;
 import java.util.ArrayList;
 
 /**
+ * "Create database" query.
  * Created by manfred on 11/2/14.
  */
 public class CreateDatabaseInfo extends QueryInfo{

@@ -1,10 +1,12 @@
 package com.database;
 
 import com.database.parser.*;
-
 import java.util.*;
 
 /**
+ * Get and Parse query.
+ * Interpreter is used to get a query and parse it into detailed information.
+ * Generally, you can create an Interpreter object, getQuery(), and parseQuery(), then you can getQueryInfo() to use the information in different query.
  * Created by manfred on 10/21/14.
  */
 public class Interpreter {
@@ -14,7 +16,7 @@ public class Interpreter {
     /**
      * Get a complete query.(Any String terminated with ';')
      * Note that new line(\r, \n) is eliminated
-     * Also, every '(' and ')' is replaced with "_(_" and "_)_".
+     * @return whether the query is successfully got.
      * */
     public boolean getQuery(){
 	    // Get a string ended with ';', note that newline like '\n' is kept.
@@ -28,11 +30,25 @@ public class Interpreter {
         return true;
     }
 
+
+	/**
+	 * Return the string got. Check if is null before use.
+	 * */
     public String getQueryString(){
         return this.queryString;
     }
 
+	public QueryInfo getQueryInfo(){
+		return queryInfo;
+	}
+
+	/**
+	 * parse the query got.
+	* */
     public void parseQuery() throws Exception {
+
+	    if(queryString == null)
+		    throw new Exception("Please call getQuery before parseQuery.");
 
 	    ArrayList<String> queryElement;
 
@@ -84,7 +100,7 @@ public class Interpreter {
 		String quotes = "\'\"";
 		String special = separators + quotes;
 
-		int front, back;
+		int front;
 		outer:
 		for (int i = 0; i < string.length(); i++) {
 			char processingChar = string.charAt(i);
@@ -121,7 +137,7 @@ public class Interpreter {
 
 			/* TO DO !!!*/
 			// If a continuous word(ended with whitespace or special chars) is found then add to element, and skip;
-			front = back = i;
+			front = i;
 			while(i < string.length() &&
 					( !(string.charAt(i) == ' '  ||  special.indexOf(string.charAt(i)) != -1)) )
 				i++;
