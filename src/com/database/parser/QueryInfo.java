@@ -163,11 +163,11 @@ public abstract class QueryInfo {
 				throw new Exception(QueryInfo.class + "[parseFromTable], invalid table name");
 			else{
 				int indexOfDot = -1;
-				String tableName;
+				String indexName;
 				String attributeName;
 				if( (indexOfDot = element.indexOf('.')) != -1 ) {
 					if(isTableName(element.substring(0, indexOfDot)))
-						tableName = element.substring(0, indexOfDot);
+						indexName = element.substring(0, indexOfDot);
 					else
 						throw new Exception(QueryInfo.class + "[parseFromTable], invalid table name");
 					attributeName = element.substring(indexOfDot+1);
@@ -282,8 +282,29 @@ public abstract class QueryInfo {
 		return true;
 	}
 
-	//TODO: Check if attribute name exists.
-	static boolean isAttributeName(String attributeName){
+	//TODO: Check if the new index name is unique.
+	static public boolean isUniqueTableName(String s) {
 		return true;
 	}
+
+	static boolean isDatabaseName(String tableName){
+		return true;
+	}
+
+	//TODO: Check if the new index name is unique.
+	static public boolean isUniqueDatabaseName(String s) {
+		return true;
+	}
+
+	//TODO: Check if attribute name exists.
+	static boolean isAttributeName(String attributeName, String tableName){
+		return true;
+	}
+
+	//TODO: Check if the new index name is unique.
+	static public boolean isUniqueIndexName(String s) {
+		return true;
+	}
+
+
 }

@@ -1,9 +1,6 @@
 package com.database;
 
-import com.database.parser.CreateTableInfo;
-import com.database.parser.InsertInfo;
-import com.database.parser.QueryInfo;
-import com.database.parser.SelectInfo;
+import com.database.parser.*;
 
 import java.util.*;
 
@@ -43,21 +40,38 @@ public class Interpreter {
 		queryElement = splitIntoElements(queryString);
 
 	    /* Debug */
-	    Iterator<String> iterator =  queryElement.iterator();
+/*	    Iterator<String> iterator =  queryElement.iterator();
 	    while(iterator.hasNext())
-		    System.out.println(iterator.next());
+		    System.out.println(iterator.next());*/
 
 		if( queryElement.get(0).equals("create") && queryElement.get(1).equals("table"))
 			queryInfo = new CreateTableInfo(queryElement);
+		else if(queryElement.get(0).equals("create") && queryElement.get(1).equals("index"))
+			queryInfo = new CreateIndexInfo(queryElement);
+		else if(queryElement.get(0).equals("create") && queryElement.get(1).equals("database"))
+			queryInfo = new CreateDatabaseInfo(queryElement);
 	    else if(queryElement.get(0).equals("select"))
 			queryInfo = new SelectInfo(queryElement);
 		else if(queryElement.get(0).equals("insert") && queryElement.get(1).equals("into"))
 			queryInfo = new InsertInfo(queryElement);
+		else if(queryElement.get(0).equals("delete") && queryElement.get(1).equals("from"))
+			queryInfo = new DeleteInfo(queryElement);
 	    else if(queryElement.get(0).equals("drop") && queryElement.get(1).equals("table"))
-			;
+			queryInfo = new DropTableInfo(queryElement);
+	    else if(queryElement.get(0).equals("drop") && queryElement.get(1).equals("database"))
+			queryInfo = new DropDatabaseInfo(queryElement);
+	    else if(queryElement.get(0).equals("drop") && queryElement.get(1).equals("index"))
+			queryInfo = new DropIndexInfo(queryElement);
+	    else if(queryElement.get(0).equals("use"))
+			queryInfo = new UseInfo(queryElement);
+		else if(queryElement.get(0).equals("help"))
+			queryInfo = new HelpInfo();
+	    else if(queryElement.get(0).equals("quit"))
+			queryInfo = new QuitInfo();
+	    else
+			throw new Exception("There's no query of this type!");
 
-/*	    System.out.println(createTableInfo.tableName);
-	    System.out.println(createTableInfo.attributes);*/
+
 
     }
 

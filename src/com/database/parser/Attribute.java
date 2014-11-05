@@ -16,7 +16,7 @@ public class Attribute {
 	public final static String CONSTANT_TYPE = "constant";
 
 	//TODO: table name not added into constructor.
-	// tableName = null means: which table it belong to is not specified.
+	// indexName = null means: which table it belong to is not specified.
 	private String tableName = null;
 	private String attributeName = null;
 	private String attributeType = null;

@@ -7,10 +7,7 @@ public class HelpInfo extends QueryInfo {
 	//TODO: help topic is not decided yet.
 	String helpTopic = null;
 
-	public HelpInfo(String _helpTopic){
+	public HelpInfo(){
 		super(QueryType.HELP);
-
-		// TODO: check if the topic exists.
-		helpTopic = _helpTopic;
 	}
 }
